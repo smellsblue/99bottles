@@ -29,6 +29,16 @@ class Bottles
     end
   end
 
+  module Bottleable
+    refine Integer do
+      using Pluralize
+
+      def to_bottles(suffix = nil)
+        ["#{pluralize("bottle")} of beer", suffix].compact.join(" ")
+      end
+    end
+  end
+
   module Target
     refine Integer do
       def target
@@ -49,6 +59,7 @@ class Bottles
     end
   end
 
+  using Bottleable
   using Capitalize
   using Pluralize
   using Target
@@ -68,14 +79,14 @@ class Bottles
     private
 
     def first_line
-      "#{n.pluralize("bottle").capitalize} of beer on the wall, #{n.pluralize("bottle")} of beer.\n"
+      "#{n.to_bottles("on the wall").capitalize}, #{n.to_bottles}.\n"
     end
 
     def second_line
       if n == 0
-        "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
+        "Go to the store and buy some more, #{99.to_bottles("on the wall")}.\n"
       else
-        "Take #{n.target} down and pass it around, #{(n - 1).pluralize("bottle")} of beer on the wall.\n"
+        "Take #{n.target} down and pass it around, #{(n - 1).to_bottles("on the wall")}.\n"
       end
     end
   end
