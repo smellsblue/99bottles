@@ -54,7 +54,11 @@ class Bottles
   module Verseable
     refine Integer do
       def to_verse
-        Bottles::Verse.new(self)
+        if zero?
+          Bottles::LastVerse.new(self)
+        else
+          Bottles::Verse.new(self)
+        end
       end
     end
   end
@@ -83,11 +87,15 @@ class Bottles
     end
 
     def second_line
-      if n == 0
-        "Go to the store and buy some more, #{99.to_bottles("on the wall")}.\n"
-      else
-        "Take #{n.target} down and pass it around, #{(n - 1).to_bottles("on the wall")}.\n"
-      end
+      "Take #{n.target} down and pass it around, #{(n - 1).to_bottles("on the wall")}.\n"
+    end
+  end
+
+  class LastVerse < Verse
+    private
+
+    def second_line
+      "Go to the store and buy some more, #{99.to_bottles("on the wall")}.\n"
     end
   end
 
