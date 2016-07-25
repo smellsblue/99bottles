@@ -108,6 +108,6 @@ class Bottles
   end
 
   def verses(start_n, end_n)
-    (end_n..start_n).to_a.reverse.map { |n| n.to_verse }.join("\n")
+    start_n.downto(end_n).map { |n| n.to_verse }.join("\n")
   end
 end
