@@ -1,12 +1,4 @@
 class Bottles
-  module Capitalize
-    refine String do
-      def capitalize
-        "#{self[0].upcase}#{self[1..size]}"
-      end
-    end
-  end
-
   module Pluralize
     refine String do
       def pluralize(n)
@@ -64,7 +56,6 @@ class Bottles
   end
 
   using Bottleable
-  using Capitalize
   using Pluralize
   using Target
   using Verseable
